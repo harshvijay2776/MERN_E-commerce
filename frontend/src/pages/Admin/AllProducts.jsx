@@ -16,7 +16,7 @@ const AllProducts = () => {
 
   return (
     <>
-      <div className="container mx-[9rem]">
+      <div className="container xl:mx-[9rem] lg:mx-[9rem] md:mx-[0rem] xl:ml-[5%] lg:ml-[5%]">
         <div className="flex flex-col  md:flex-row">
           <div className="p-3">
             <div className="ml-[2rem] text-xl font-bold h-12">

@@ -6,25 +6,35 @@ const CategoryForm = ({
   handleDelete,
 }) => {
   return (
-    <div className="p-3">
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          className="py-3 px-4 border rounded-lg w-full"
-          placeholder="Write category name"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
+    <div>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-gray-300 font-semibold mb-2">
+            Category Name {buttonText === "Submit" && "*"}
+          </label>
+          <input
+            type="text"
+            className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+            placeholder="Enter category name"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            required
+          />
+        </div>
 
-        <div className="flex justify-between">
-          <button className="bg-pink-500 text-white py-2 px-4 rounded-lg hover:bg-pink-600 focus:outline-none focus:ring-2 foucs:ring-pink-500 focus:ring-opacity-50">
+        <div className="flex gap-3">
+          <button 
+            type="submit"
+            className="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-800 shadow-lg"
+          >
             {buttonText}
           </button>
 
           {handleDelete && (
             <button
+              type="button"
               onClick={handleDelete}
-              className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 foucs:ring-red-500 focus:ring-opacity-50"
+              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800"
             >
               Delete
             </button>

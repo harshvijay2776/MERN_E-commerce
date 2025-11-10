@@ -9,7 +9,7 @@ const OrderList = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-4 md:p-8 ml-[5%] xl:ml-[5%] lg:ml-[5%] md:ml-0">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Order Management</h1>
