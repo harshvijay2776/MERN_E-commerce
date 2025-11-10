@@ -1,42 +1,27 @@
 #navigation-container {
-  width: 4%;
-  transition: all 0.3s ease-in-out;
-  overflow: hidden;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #navigation-container:hover {
-  width: 15%;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.7);
 }
 
 /* Initially hide nav-item-name */
 .nav-item-name {
   display: none;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out 0.1s;
   white-space: nowrap;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
 }
 
 #navigation-container:hover .nav-item-name {
-  display: block;
+  display: inline-block;
   opacity: 1;
-}
-
-.search-input {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-#navigation-container:hover .search-input {
-  display: block;
-  opacity: 1;
-}
-
-#navigation-container:hover .search-icon {
-  display: none;
-  transition: opacity 0.3s ease-in-out;
 }
 
 /* Smooth transitions for links */
@@ -48,15 +33,33 @@
   color: #ec4899;
 }
 
+/* Icon minimum width to prevent shifting */
+#navigation-container svg {
+  flex-shrink: 0;
+}
+
+/* Improve hover effects */
+#navigation-container a:hover,
+#navigation-container button:hover {
+  background-color: rgba(31, 41, 55, 0.8);
+}
+
 /* Add spacing for better mobile responsiveness */
 @media (max-width: 768px) {
   #navigation-container {
     width: 100%;
     height: auto;
     position: relative;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   #navigation-container:hover {
     width: 100%;
+  }
+  
+  .nav-item-name {
+    display: inline-block !important;
+    opacity: 1 !important;
   }
 }

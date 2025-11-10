@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 import Category from "./backend/models/categoryModel.js";
 import Product from "./backend/models/productModel.js";
+import User from "./backend/models/userModel.js";
+import Order from "./backend/models/orderModel.js";
 
 dotenv.config();
 
@@ -204,10 +207,50 @@ const seedDatabase = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB");
 
-    // Clear existing data
+    // Clear existing data (except admin user)
     await Category.deleteMany({});
     await Product.deleteMany({});
+    await Order.deleteMany({});
+    await User.deleteMany({ email: { $ne: "admin@example.com" } }); // Keep admin
     console.log("Cleared existing data");
+
+    // Create sample users
+    const salt = await bcrypt.genSalt(10);
+    const users = [
+      {
+        username: "john_doe",
+        email: "john@example.com",
+        password: await bcrypt.hash("password123", salt),
+        isAdmin: false,
+      },
+      {
+        username: "jane_smith",
+        email: "jane@example.com",
+        password: await bcrypt.hash("password123", salt),
+        isAdmin: false,
+      },
+      {
+        username: "mike_wilson",
+        email: "mike@example.com",
+        password: await bcrypt.hash("password123", salt),
+        isAdmin: false,
+      },
+      {
+        username: "sarah_johnson",
+        email: "sarah@example.com",
+        password: await bcrypt.hash("password123", salt),
+        isAdmin: false,
+      },
+      {
+        username: "david_brown",
+        email: "david@example.com",
+        password: await bcrypt.hash("password123", salt),
+        isAdmin: false,
+      },
+    ];
+
+    const createdUsers = await User.insertMany(users);
+    console.log(`✅ ${createdUsers.length} users created`);
 
     // Insert categories
     const createdCategories = await Category.insertMany(categories);
@@ -228,14 +271,183 @@ const seedDatabase = async () => {
     const createdProducts = await Product.insertMany(productsWithCategories);
     console.log(`✅ ${createdProducts.length} products created`);
 
+    // Create sample orders
+    const orders = [
+      {
+        user: createdUsers[0]._id,
+        orderItems: [
+          {
+            name: createdProducts[0].name,
+            qty: 1,
+            image: createdProducts[0].image,
+            price: createdProducts[0].price,
+            product: createdProducts[0]._id,
+          },
+          {
+            name: createdProducts[5].name,
+            qty: 2,
+            image: createdProducts[5].image,
+            price: createdProducts[5].price,
+            product: createdProducts[5]._id,
+          },
+        ],
+        shippingAddress: {
+          address: "123 Main St",
+          city: "New York",
+          postalCode: "10001",
+          country: "USA",
+        },
+        paymentMethod: "PayPal",
+        itemsPrice: 379.97,
+        taxPrice: 38.00,
+        shippingPrice: 10.00,
+        totalPrice: 427.97,
+        isPaid: true,
+        paidAt: new Date(),
+        isDelivered: true,
+        deliveredAt: new Date(),
+      },
+      {
+        user: createdUsers[1]._id,
+        orderItems: [
+          {
+            name: createdProducts[2].name,
+            qty: 1,
+            image: createdProducts[2].image,
+            price: createdProducts[2].price,
+            product: createdProducts[2]._id,
+          },
+        ],
+        shippingAddress: {
+          address: "456 Oak Ave",
+          city: "Los Angeles",
+          postalCode: "90001",
+          country: "USA",
+        },
+        paymentMethod: "PayPal",
+        itemsPrice: 1299.99,
+        taxPrice: 130.00,
+        shippingPrice: 0.00,
+        totalPrice: 1429.99,
+        isPaid: true,
+        paidAt: new Date(),
+        isDelivered: false,
+      },
+      {
+        user: createdUsers[2]._id,
+        orderItems: [
+          {
+            name: createdProducts[3].name,
+            qty: 3,
+            image: createdProducts[3].image,
+            price: createdProducts[3].price,
+            product: createdProducts[3]._id,
+          },
+          {
+            name: createdProducts[10].name,
+            qty: 1,
+            image: createdProducts[10].image,
+            price: createdProducts[10].price,
+            product: createdProducts[10]._id,
+          },
+        ],
+        shippingAddress: {
+          address: "789 Pine Rd",
+          city: "Chicago",
+          postalCode: "60601",
+          country: "USA",
+        },
+        paymentMethod: "PayPal",
+        itemsPrice: 114.96,
+        taxPrice: 11.50,
+        shippingPrice: 10.00,
+        totalPrice: 136.46,
+        isPaid: true,
+        paidAt: new Date(),
+        isDelivered: true,
+        deliveredAt: new Date(),
+      },
+      {
+        user: createdUsers[3]._id,
+        orderItems: [
+          {
+            name: createdProducts[1].name,
+            qty: 1,
+            image: createdProducts[1].image,
+            price: createdProducts[1].price,
+            product: createdProducts[1]._id,
+          },
+        ],
+        shippingAddress: {
+          address: "321 Elm St",
+          city: "Houston",
+          postalCode: "77001",
+          country: "USA",
+        },
+        paymentMethod: "PayPal",
+        itemsPrice: 299.99,
+        taxPrice: 30.00,
+        shippingPrice: 10.00,
+        totalPrice: 339.99,
+        isPaid: false,
+        isDelivered: false,
+      },
+      {
+        user: createdUsers[4]._id,
+        orderItems: [
+          {
+            name: createdProducts[6].name,
+            qty: 1,
+            image: createdProducts[6].image,
+            price: createdProducts[6].price,
+            product: createdProducts[6]._id,
+          },
+          {
+            name: createdProducts[7].name,
+            qty: 1,
+            image: createdProducts[7].image,
+            price: createdProducts[7].price,
+            product: createdProducts[7]._id,
+          },
+        ],
+        shippingAddress: {
+          address: "654 Maple Dr",
+          city: "Phoenix",
+          postalCode: "85001",
+          country: "USA",
+        },
+        paymentMethod: "PayPal",
+        itemsPrice: 379.98,
+        taxPrice: 38.00,
+        shippingPrice: 10.00,
+        totalPrice: 427.98,
+        isPaid: true,
+        paidAt: new Date(),
+        isDelivered: false,
+      },
+    ];
+
+    const createdOrders = await Order.insertMany(orders);
+    console.log(`✅ ${createdOrders.length} orders created`);
+
     console.log("\n🎉 Database seeded successfully!");
     console.log("-----------------------------------");
-    console.log("Categories:");
+    console.log("Users:");
+    createdUsers.forEach((user) => console.log(`  - ${user.username} (${user.email})`));
+    console.log("\nCategories:");
     createdCategories.forEach((cat) => console.log(`  - ${cat.name}`));
     console.log("\nSample Products:");
     createdProducts.slice(0, 5).forEach((prod) => 
       console.log(`  - ${prod.name} ($${prod.price})`)
     );
+    console.log("\nOrders:");
+    createdOrders.forEach((order, idx) => 
+      console.log(`  - Order #${idx + 1}: $${order.totalPrice} (${order.isPaid ? 'Paid' : 'Unpaid'})`)
+    );
+    console.log("-----------------------------------");
+    console.log("\n📝 Test User Credentials:");
+    console.log("  Email: john@example.com");
+    console.log("  Password: password123");
     console.log("-----------------------------------");
 
     process.exit(0);
