@@ -35,6 +35,7 @@ const Navigation = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
+      setDropdownOpen(false);
       navigate("/login");
     } catch (error) {
       console.error(error);
@@ -46,13 +47,14 @@ const Navigation = () => {
       style={{ zIndex: 9999 }}
       className={`${
         showSidebar ? "hidden" : "flex"
-      } xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-white bg-[#000] w-[4%] hover:w-[15%] h-[100vh]  fixed `}
+      } xl:flex lg:flex md:hidden sm:hidden flex-col justify-between p-4 text-white bg-[#000] w-[4%] hover:w-[15%] h-[100vh] fixed transition-all duration-300 ease-in-out`}
       id="navigation-container"
     >
       <div className="flex flex-col justify-center space-y-4">
         <Link
           to="/"
           className="flex items-center transition-transform transform hover:translate-x-2"
+          onClick={() => setDropdownOpen(false)}
         >
           <AiOutlineHome className="mr-2 mt-[3rem]" size={26} />
           <span className="hidden nav-item-name mt-[3rem]">HOME</span>{" "}
@@ -61,12 +63,13 @@ const Navigation = () => {
         <Link
           to="/shop"
           className="flex items-center transition-transform transform hover:translate-x-2"
+          onClick={() => setDropdownOpen(false)}
         >
           <AiOutlineShopping className="mr-2 mt-[3rem]" size={26} />
           <span className="hidden nav-item-name mt-[3rem]">SHOP</span>{" "}
         </Link>
 
-        <Link to="/cart" className="flex relative">
+        <Link to="/cart" className="flex relative" onClick={() => setDropdownOpen(false)}>
           <div className="flex items-center transition-transform transform hover:translate-x-2">
             <AiOutlineShoppingCart className="mt-[3rem] mr-2" size={26} />
             <span className="hidden nav-item-name mt-[3rem]">Cart</span>{" "}
@@ -83,7 +86,7 @@ const Navigation = () => {
           </div>
         </Link>
 
-        <Link to="/favorite" className="flex relative">
+        <Link to="/favorite" className="flex relative" onClick={() => setDropdownOpen(false)}>
           <div className="flex justify-center items-center transition-transform transform hover:translate-x-2">
             <FaHeart className="mt-[3rem] mr-2" size={20} />
             <span className="hidden nav-item-name mt-[3rem]">
@@ -126,7 +129,7 @@ const Navigation = () => {
 
         {dropdownOpen && userInfo && (
           <ul
-            className={`absolute right-0 mt-2 mr-14 space-y-2 bg-white text-gray-600 ${
+            className={`absolute right-0 mt-2 mr-14 space-y-2 bg-white text-gray-600 rounded-lg shadow-lg overflow-hidden ${
               !userInfo.isAdmin ? "-top-20" : "-top-80"
             } `}
           >
@@ -136,6 +139,7 @@ const Navigation = () => {
                   <Link
                     to="/admin/dashboard"
                     className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     Dashboard
                   </Link>
@@ -144,6 +148,7 @@ const Navigation = () => {
                   <Link
                     to="/admin/productlist"
                     className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     Products
                   </Link>
@@ -152,6 +157,7 @@ const Navigation = () => {
                   <Link
                     to="/admin/categorylist"
                     className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     Category
                   </Link>
@@ -160,6 +166,7 @@ const Navigation = () => {
                   <Link
                     to="/admin/orderlist"
                     className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     Orders
                   </Link>
@@ -168,6 +175,7 @@ const Navigation = () => {
                   <Link
                     to="/admin/userlist"
                     className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
                   >
                     Users
                   </Link>
@@ -176,7 +184,11 @@ const Navigation = () => {
             )}
 
             <li>
-              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">
+              <Link 
+                to="/profile" 
+                className="block px-4 py-2 hover:bg-gray-100"
+                onClick={() => setDropdownOpen(false)}
+              >
                 Profile
               </Link>
             </li>

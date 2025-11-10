@@ -74,6 +74,17 @@ const AdminProductUpdate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validation
+    if (!category) {
+      toast.error("Please select a category");
+      return;
+    }
+    if (!image) {
+      toast.error("Please upload an image");
+      return;
+    }
+    
     try {
       const formData = new FormData();
       formData.append("image", image);
@@ -140,11 +151,11 @@ const AdminProductUpdate = () => {
             <div className="h-12">Update / Delete Product</div>
 
             {image && (
-              <div className="text-center">
+              <div className="text-center mb-4">
                 <img
                   src={image}
                   alt="product"
-                  className="block mx-auto w-full h-[40%]"
+                  className="block mx-auto max-w-md max-h-80 object-cover rounded-lg shadow-lg"
                 />
               </div>
             )}
@@ -234,7 +245,9 @@ const AdminProductUpdate = () => {
                     placeholder="Choose Category"
                     className="p-4 mb-3 w-[30rem] border rounded-lg bg-[#101011] text-white mr-[5rem]"
                     onChange={(e) => setCategory(e.target.value)}
+                    value={category}
                   >
+                    <option value="">Choose Category</option>
                     {categories?.map((c) => (
                       <option key={c._id} value={c._id}>
                         {c.name}

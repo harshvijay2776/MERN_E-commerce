@@ -28,6 +28,16 @@ const ProductList = () => {
     e.preventDefault();
 
     try {
+      // Validation
+      if (!image) {
+        toast.error("Please upload an image first");
+        return;
+      }
+      if (!category) {
+        toast.error("Please select a category");
+        return;
+      }
+
       const productData = new FormData();
       productData.append("image", image);
       productData.append("name", name);
@@ -166,7 +176,9 @@ const ProductList = () => {
                   placeholder="Choose Category"
                   className="p-4 mb-3 w-[30rem] border rounded-lg bg-[#101011] text-white"
                   onChange={(e) => setCategory(e.target.value)}
+                  value={category}
                 >
+                  <option value="">Choose Category</option>
                   {categories?.map((c) => (
                     <option key={c._id} value={c._id}>
                       {c.name}

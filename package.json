@@ -9,7 +9,8 @@
     "frontend": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
     "create-admin": "node createAdmin.js",
-    "debug-auth": "node debug-auth.js"
+    "debug-auth": "node debug-auth.js",
+    "seed": "node seedData.js"
   },
   "keywords": [],
   "author": "Utkarsh Vijay",
