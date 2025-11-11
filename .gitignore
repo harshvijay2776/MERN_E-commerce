@@ -1,2 +1,10 @@
 /node_modules
 .env
+
+# MongoDB local database
+mongodb-data/
+/mongodb-data
+
+# Uploaded files
+uploads/
+/uploads
