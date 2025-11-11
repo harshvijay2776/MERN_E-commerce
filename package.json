@@ -10,7 +10,9 @@
     "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
     "create-admin": "node createAdmin.js",
     "debug-auth": "node debug-auth.js",
-    "seed": "node seedData.js"
+    "seed": "node seedData.js",
+    "seed:clean": "node clearData.js",
+    "seed:clean-all": "node clearAllData.js"
   },
   "keywords": [],
   "author": "Utkarsh Vijay",
